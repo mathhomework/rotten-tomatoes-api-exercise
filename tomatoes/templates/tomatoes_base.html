@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<head>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="{% static "js/index.js" %}"></script>
+</head>
+<body>
+    <button id ="getMovie">
+        Get a movie
+    </button>
+    <button id = "saveMovie">
+        Save this movie
+    </button>
+    <button id ="saveMovieHtml">
+        Save this movie html
+    </button>
+    <form id="searchMovie">
+        <input type="text" method="get" class="searchInput">
+        <input type="submit" value="search" class="search">
+    </form>
+    <div class="movieInfoContainer"></div>
+</body>
