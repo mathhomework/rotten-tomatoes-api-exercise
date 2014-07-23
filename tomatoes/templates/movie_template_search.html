@@ -1,5 +1,5 @@
     {% for movie in movie_info_list %}
-<div class = "movieInfo">
+<div class = "movieInfo" id = {{ movie.movie_id }}>
 
     <img src="{{ movie.poster }}"/>
     <p>
@@ -10,8 +10,14 @@
     </p>
     <p>
         Critic Rating: {{ movie.critic_rating }}
+    </p>
+    <button class="moreInfo" >More Info</button>
+    <div class="showHide inactive">
         mpaa: {{ movie.mpaa_rating }}
         runtime: {{ movie.runtime }}
-    </p>
+        movie id: {{ movie.movie_id }}
+    </div>
+    <button class="favorite">favorite</button>
+
 </div>
     {% endfor %}

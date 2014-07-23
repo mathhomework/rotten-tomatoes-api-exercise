@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<html>
+<head>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="{% static "js/tinder.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+</head>
+<body>
+    <p>What's your favorite movie?</p>
+    <input type ="text" id="search">
+    <button id ="searchButton">Search</button>
+    <div id = "recommended"></div>
+</body>
+</html>

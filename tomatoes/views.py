@@ -17,6 +17,7 @@ def new_movie(request):
         data = json.loads(request.body)
         new_movie = Movie.objects.create(
             title = data['title'],
+            movie_id = data['movie_id'],
             critic_rating= data['critic_rating'],
             poster= data['poster'],
             mpaa_rating= data['mpaa_rating'],
@@ -26,6 +27,7 @@ def new_movie(request):
         )
         movie_info = {
             'title': new_movie.title,
+            'movie_id': new_movie.movie_id,
             'critic_rating': new_movie.critic_rating,
             'poster': new_movie.poster,
             'mpaa_rating': new_movie.mpaa_rating,
@@ -42,8 +44,9 @@ def new_movie(request):
 def new_movie_html(request):
     if request.method == 'POST':
         data = json.loads(request.body) #data is equivalent to data:movieInfo
-        neww_movie = Movie.objects.create(
+        new_movie = Movie.objects.create(
             title = data['title'],
+            movie_id = data['movie_id'],
             critic_rating= data['critic_rating'],
             poster= data['poster'],
             mpaa_rating= data['mpaa_rating'],
@@ -53,13 +56,14 @@ def new_movie_html(request):
 
         )
         movie_info = {
-            'title': neww_movie.title,
-            'critic_rating': neww_movie.critic_rating,
-            'poster': neww_movie.poster,
-            'mpaa_rating': neww_movie.mpaa_rating,
-            'runtime': neww_movie.runtime,
-            'year': neww_movie.year,
-            # 'audience_score': neww_movie.audience_score,
+            'title': new_movie.title,
+            'movie_id': new_movie.movie_id,
+            'critic_rating': new_movie.critic_rating,
+            'poster': new_movie.poster,
+            'mpaa_rating': new_movie.mpaa_rating,
+            'runtime': new_movie.runtime,
+            'year': new_movie.year,
+            # 'audience_score': new_movie.audience_score,
             }
         return render_to_response('movie_template.html', movie_info)
 
@@ -73,6 +77,7 @@ def search_movies(request):
         for x in data['searchResults']:
             new_movie = Movie.objects.create(
                 title = x['title'],
+                movie_id = x['movie_id'],
                 critic_rating= x['critic_rating'],
                 poster= x['poster'],
                 mpaa_rating= x['mpaa_rating'],
@@ -82,6 +87,7 @@ def search_movies(request):
             )
             movie_info = {
                 'title': new_movie.title,
+                'movie_id': new_movie.movie_id,
                 'critic_rating': new_movie.critic_rating,
                 'poster': new_movie.poster,
                 'mpaa_rating': new_movie.mpaa_rating,
@@ -92,3 +98,17 @@ def search_movies(request):
             }
             movie_info_list.append(movie_info)
         return render_to_response('movie_template_search.html', {'movie_info_list': movie_info_list})
+
+
+def tinder(request):
+    return render(request, 'tinder.html')
+
+
+def new_favorite(request):
+    # if request.method == "POST":
+    #     new_favorite = Favorite.objects.create(
+    #         title =
+    #         poster =
+    #         identifier =
+    #     )
+    pass

@@ -16,13 +16,16 @@ $(document).ready(function(){
                 console.log(movie_response);
                 var movie = movie_response.movies[0];
                 console.log(movie);
+
                 movieInfo.title = movie.title;
+                movieInfo.movie_id=movie.id;
                 movieInfo.critic_rating = movie.ratings.critics_score;
                 movieInfo.poster = movie.posters.original;
                 movieInfo.mpaa_rating = movie.mpaa_rating;
                 movieInfo.runtime = movie.runtime;
                 movieInfo.year = movie.year;
                 movieInfo.audience_score = movie.ratings.audience_score;
+
 
             },
             error: function(error_response){
@@ -85,6 +88,7 @@ $(document).ready(function(){
                     var movie = movie_response.movies[x];
                     console.log(movie.title);
                     searchInfo.title = movie.title;
+                    searchInfo.movie_id=movie.id;
                     searchInfo.critic_rating = movie.ratings.critics_score;
                     searchInfo.poster = movie.posters.original;
                     searchInfo.mpaa_rating = movie.mpaa_rating;
@@ -123,6 +127,19 @@ $(document).ready(function(){
         });
 
 
+    });
+
+    $(document).on("click", '.moreInfo', function(){
+        $(this).text(function(i,text){
+            return text === "More Info" ? "Less Info": "More Info";
+        });
+        $(this).parent().find($('.showHide')).toggleClass("inactive active");
+
+    });
+
+    var favorites = [];
+    $(document).on("click", '.favorite', function(){
+       $(this).parent().find()
     });
 
 
