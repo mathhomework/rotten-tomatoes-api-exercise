@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'new_movie/$','tomatoes.views.new_movie', name = 'new_movie'),
-    url(r'new_movie_html/$', 'tomatoes.views.new_movie_html', name = 'new_movie_html')
+    url(r'new_movie_html/$', 'tomatoes.views.new_movie_html', name = 'new_movie_html'),
+    url(r'search_movies/$', 'tomatoes.views.search_movies', name= 'search_movies'),
 
 )

@@ -16,16 +16,22 @@ def new_movie(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         new_movie = Movie.objects.create(
-            title=data['title'],
-            release_year=data['release_year'],
-            critic_rating=data['critic_rating'],
-            poster=data['poster']
+            title = data['title'],
+            critic_rating= data['critic_rating'],
+            poster= data['poster'],
+            mpaa_rating= data['mpaa_rating'],
+            runtime= data['runtime'],
+            year= data['year'],
+            # audience_score =data['audience_score']
         )
         movie_info = {
             'title': new_movie.title,
-            'release_year': new_movie.release_year,
             'critic_rating': new_movie.critic_rating,
-            'poster': new_movie.poster
+            'poster': new_movie.poster,
+            'mpaa_rating': new_movie.mpaa_rating,
+            'runtime': new_movie.runtime,
+            'year': new_movie.year,
+            # 'audience_score': new_movie.audience_score
 
         }
         return HttpResponse(json.dumps(movie_info), content_type = 'application/json')
@@ -35,17 +41,54 @@ def new_movie(request):
 @csrf_exempt
 def new_movie_html(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        data = json.loads(request.body) #data is equivalent to data:movieInfo
         neww_movie = Movie.objects.create(
             title = data['title'],
-            release_year= data['release_year'],
             critic_rating= data['critic_rating'],
-            poster= data['poster']
+            poster= data['poster'],
+            mpaa_rating= data['mpaa_rating'],
+            runtime= data['runtime'],
+            year= data['year'],
+            # audience_score =data['audience_score']
+
         )
         movie_info = {
             'title': neww_movie.title,
-            'release_year': neww_movie.release_year,
             'critic_rating': neww_movie.critic_rating,
-            'poster': neww_movie.poster
-        }
+            'poster': neww_movie.poster,
+            'mpaa_rating': neww_movie.mpaa_rating,
+            'runtime': neww_movie.runtime,
+            'year': neww_movie.year,
+            # 'audience_score': neww_movie.audience_score,
+            }
         return render_to_response('movie_template.html', movie_info)
+
+
+@csrf_exempt
+def search_movies(request):
+    if request.method == "POST":
+        movie_info_list = []
+
+        data = json.loads(request.body)
+        for x in data['searchResults']:
+            new_movie = Movie.objects.create(
+                title = x['title'],
+                critic_rating= x['critic_rating'],
+                poster= x['poster'],
+                mpaa_rating= x['mpaa_rating'],
+                runtime= x['runtime'],
+                year= x['year'],
+                # audience_score =x['audience_score']
+            )
+            movie_info = {
+                'title': new_movie.title,
+                'critic_rating': new_movie.critic_rating,
+                'poster': new_movie.poster,
+                'mpaa_rating': new_movie.mpaa_rating,
+                'runtime': new_movie.runtime,
+                'year': new_movie.year,
+                # 'audience_score': new_movie.audience_score,
+
+            }
+            movie_info_list.append(movie_info)
+        return render_to_response('movie_template_search.html', {'movie_info_list': movie_info_list})

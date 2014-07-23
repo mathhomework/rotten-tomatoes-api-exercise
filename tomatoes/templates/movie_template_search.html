@@ -1,0 +1,17 @@
+    {% for movie in movie_info_list %}
+<div class = "movieInfo">
+
+    <img src="{{ movie.poster }}"/>
+    <p>
+        Title: {{ movie.title }}
+    </p>
+    <p>
+        Released In: {{ movie.year }}
+    </p>
+    <p>
+        Critic Rating: {{ movie.critic_rating }}
+        mpaa: {{ movie.mpaa_rating }}
+        runtime: {{ movie.runtime }}
+    </p>
+</div>
+    {% endfor %}

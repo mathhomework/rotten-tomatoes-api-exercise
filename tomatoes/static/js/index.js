@@ -17,7 +17,6 @@ $(document).ready(function(){
                 var movie = movie_response.movies[0];
                 console.log(movie);
                 movieInfo.title = movie.title;
-                movieInfo.release_year = movie.year;
                 movieInfo.critic_rating = movie.ratings.critics_score;
                 movieInfo.poster = movie.posters.original;
                 movieInfo.mpaa_rating = movie.mpaa_rating;
@@ -68,7 +67,60 @@ $(document).ready(function(){
         });
     });
 
-    $('#searchMovie').submit(function(){
+    var searchResults = [];
+    $('#searchMovies').submit(function(){
+        event.preventDefault();
+        searchQuery = $('.searchInput').val();
+
+        $.ajax({
+            url: 'http://api.rottentomatoes.com/api/public/v1.0/' +
+              'movies.json?apikey=' + myApiKey + '&q=' +
+               searchQuery + '&page_limit=' + pageLimit,
+            type: 'GET',
+            dataType: 'jsonp',
+            success: function(movie_response){
+
+                for(var x=0; x<movie_response.movies.length;x++) {
+                    var searchInfo = {};
+                    var movie = movie_response.movies[x];
+                    console.log(movie.title);
+                    searchInfo.title = movie.title;
+                    searchInfo.critic_rating = movie.ratings.critics_score;
+                    searchInfo.poster = movie.posters.original;
+                    searchInfo.mpaa_rating = movie.mpaa_rating;
+                    searchInfo.runtime = movie.runtime;
+                    searchInfo.year = movie.year;
+                    searchInfo.audience_score = movie.ratings.audience_score;
+                    searchResults.push(searchInfo);
+                    console.log(searchResults);
+//                now for post to work.
+
+
+                }
+                var searchObject = {};
+                searchObject.searchResults = searchResults;
+
+                searchObject = JSON.stringify(searchObject);
+                    $.ajax({
+                        url: '/search_movies/',
+                        type: 'POST',
+                        dataType: 'html',
+                        data: searchObject,
+                        success: function (movie_response) {
+                            console.log(movie_response);
+                            $('.movieInfoContainer').html(movie_response);
+                        },
+                        error: function (error_response) {
+                            console.log(error_response);
+                        }
+                    });
+
+
+            },
+            error: function(error_response){
+                console.log(error_response);
+            }
+        });
 
 
     });
