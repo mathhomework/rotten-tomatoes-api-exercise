@@ -44,8 +44,8 @@ $(document).ready(function(){
                         movieInfo.title = response.movies[i].title;
                         movieInfo.poster= response.movies[i].posters.original;
                         movieInfo.identifier = response.movies[i].id;
-                        movies.push(movieInfo);
-                        $('#recommended').append("<div><p>"+response.movies[i].title+response.movies[i].id+"</p>" +
+                        movies.push(movieInfo); //this movies is different from response.movies, which is from the api GET. there's a variable above that defines this movies as an array.
+                        $('#recommended').append("<div class ='"+ response.movies[i].id+"'><p>"+response.movies[i].title+response.movies[i].id+"</p>" +
                             "<button class= 'learnMoreButton'>Learn More</button><div class='learnMore inactive'>"+ response.movies[i].year +
                             "</div><button class='favoriteButton'>Favorite</button></div>");
                     }
@@ -63,27 +63,60 @@ $(document).ready(function(){
     });
 
 
+    $(document).on('click','.favoriteButton', function(){
+        var favoriteInfo;
+        for (var x = 0; x< movies.length; x++){
+            if (movies[x].identifier == $(this).parent().attr("class")){
+                console.log(movies[x].identifier);
+                favoriteInfo = JSON.stringify(movies[x]);
+                console.log(favoriteInfo);
+            }
+        }
+        console.log("Hello" + $(this).parent().attr("class"));
+        //stringify usually would go here.
+        $.ajax({
+            url: "/new_favorite/",
+            type: "POST",
+            dataType: "json",
+            data: favoriteInfo,
+            success: function(data){
+                console.log(data);
 
-});
+            },
+            error: function(data){
+                console.log(data);
+            }
 
-$(document).on('click','.favoriteButton', function(){
-    $(this)// JSON.stringify
+        });
+    });
+
+    $('#viewFavoritesButton').on("click", function(){
     $.ajax({
-        url: "/new_favorite/",
-        type: "POST",
+        url: "/all_favorites/",
+        type: "GET",
         dataType: "json",
-        success: function(data){
-            console.log(data);
+        success: function(response){
+            for(var x=0; x<response.length; x++){
+                console.log(response[x]);
+                $('#favorites').append("<p>"+response[x].title+"</p><img src='"+response[x].poster+"'>");
+            }
+
 
         },
-        error: function(data){
-            console.log(data);
+        error: function(response){
+            console.log(response);
         }
 
     });
 });
 
+
+});
+
+
+
 $(document).on('click', '.learnMoreButton', function(){
     $(this).parent().find($('.learnMore')).toggleClass("active inactive");
 
 });
+

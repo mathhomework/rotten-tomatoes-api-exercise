@@ -4,7 +4,7 @@ from django.shortcuts import render, render_to_response
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
-from tomatoes.models import Movie
+from tomatoes.models import Movie, Favorite
 
 
 def home(request):
@@ -25,7 +25,7 @@ def new_movie(request):
             year= data['year'],
             # audience_score =data['audience_score']
         )
-        movie_info = {
+        movie_info = { #this is for making json objects and we use json dumps instead of serialize for formatting issues.
             'title': new_movie.title,
             'movie_id': new_movie.movie_id,
             'critic_rating': new_movie.critic_rating,
@@ -103,12 +103,38 @@ def search_movies(request):
 def tinder(request):
     return render(request, 'tinder.html')
 
-
+@csrf_exempt
 def new_favorite(request):
-    # if request.method == "POST":
-    #     new_favorite = Favorite.objects.create(
-    #         title =
-    #         poster =
-    #         identifier =
-    #     )
-    pass
+    if request.method == "POST":
+        data = json.loads(request.body)
+        new_favorite = Favorite.objects.create(
+            title = data['title'],
+            poster = data['poster'],
+            identifier = data['identifier']
+        )
+        favorite_info = {
+            'title': new_favorite.title,
+            'poster': new_favorite.poster,
+            'identifier': new_favorite.identifier,
+        }
+
+        return HttpResponse(json.dumps(favorite_info), content_type='application/json')
+
+@csrf_exempt
+def all_favorites(request):
+    all_favs = Favorite.objects.all()
+    favorites_list = []
+    for fav in all_favs:
+        favorites_list.append({
+            'title': fav.title,
+            'poster': fav.poster,
+            'identifier': fav.identifier,
+        })
+
+    #return render_to_response("all_favorites.html", favorites_info)
+    #^that's if you wanted to directly send to html instead of making json objects.
+    #you would also have to make a favorites_info dictionary? for the template to have stuff to render. maybe stash stuff in an array?idk.
+    return HttpResponse(json.dumps(favorites_list), content_type='application/json')
+
+
+

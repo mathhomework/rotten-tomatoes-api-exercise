@@ -17,7 +17,7 @@ class Movie(models.Model):
         return self.title
 
 
-class Favorites(models.Model):
-    title = models.CharField(max_length = 100, null=True)
+class Favorite(models.Model):
+    title = models.CharField(max_length = 200, null=True)
     poster = models.URLField()
     identifier = models.URLField()
