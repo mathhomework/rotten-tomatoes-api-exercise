@@ -137,4 +137,5 @@ def all_favorites(request):
     return HttpResponse(json.dumps(favorites_list), content_type='application/json')
 
 
-
+def theater(request):
+    return render(request, "theater.html")

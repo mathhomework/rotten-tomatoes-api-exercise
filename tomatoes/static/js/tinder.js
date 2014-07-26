@@ -45,11 +45,12 @@ $(document).ready(function(){
                         movieInfo.poster= response.movies[i].posters.original;
                         movieInfo.identifier = response.movies[i].id;
                         movies.push(movieInfo); //this movies is different from response.movies, which is from the api GET. there's a variable above that defines this movies as an array.
-                        $('#recommended').append("<div class ='"+ response.movies[i].id+"'><p>"+response.movies[i].title+response.movies[i].id+"</p>" +
+                        $('#recommended').append("<h3 class = 'ui-accordion-header'>"+response.movies[i].title+"</h3><div class = 'ui-accordion-content'><div class ='"+ response.movies[i].id+"'><p>"+response.movies[i].title+response.movies[i].id+"</p>" +
                             "<button class= 'learnMoreButton'>Learn More</button><div class='learnMore inactive'>"+ response.movies[i].year +
-                            "</div><button class='favoriteButton'>Favorite</button></div>");
+                            "</div><button class='favoriteButton'>Favorite</button></div></div>");
+
                     }
-                    console.log(movies);
+
 
 
                 },
@@ -57,7 +58,13 @@ $(document).ready(function(){
                     console.log(response);
                 }
 
-            })
+            }).complete(function() {
+                $('.ui-accordion').accordion({active:1}, {header:"h3"});
+            });
+//                .complete(function(){
+//                $('.ui-accordion').accordion({active:1});
+//
+//            });
            });
 
     });
@@ -91,24 +98,26 @@ $(document).ready(function(){
     });
 
     $('#viewFavoritesButton').on("click", function(){
-    $.ajax({
-        url: "/all_favorites/",
-        type: "GET",
-        dataType: "json",
-        success: function(response){
-            for(var x=0; x<response.length; x++){
-                console.log(response[x]);
-                $('#favorites').append("<p>"+response[x].title+"</p><img src='"+response[x].poster+"'>");
+        $.ajax({
+            url: "/all_favorites/",
+            type: "GET",
+            dataType: "json",
+            success: function(response){
+                for(var x=0; x<response.length; x++){
+                    console.log(response[x]);
+                    $('#favorites').append("<p>"+response[x].title+"</p><img src='"+response[x].poster+"'>");
+                }
+
+
+            },
+            error: function(response){
+                console.log(response);
             }
 
-
-        },
-        error: function(response){
-            console.log(response);
-        }
-
+        });
     });
-});
+
+
 
 
 });

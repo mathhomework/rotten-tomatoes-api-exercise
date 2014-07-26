@@ -2,20 +2,18 @@
 <html>
 <head>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="{% static "js/tinder.js" %}"></script>
     <script src="{% static "js/jquery-ui-1.11.0.custom/jquery-ui.js" %}"></script>
-
+    <script src="{% static "js/theater.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-    <link rel ="stylesheet/less" type="text/css" href = "{% static "css/styleless.less" %}">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
-
 </head>
 <body>
     <p>What's your favorite movie?</p>
     <input type ="text" id="search">
-    <button id ="searchButton">Search</button>
-    <button id = "viewFavoritesButton">View Favorites</button>
-    <div id = "recommended" class="ui-accordion"></div>
+    <button id = "myWatchlist">My Watchlist</button>
+    <button id ="playingNowButton">Playing Now</button>
+    <div id = "playingNow"></div>
+    <button id = "comingSoonButton">Coming Soon</button>
+    <div id = "recommended"></div>
     <div id = "favorites"></div>
 </body>
 </html>
